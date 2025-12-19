@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-    <h1>Book Table</h1>
     <table class="my-library">
         <caption>List of Books in My Libary</caption>
         <thead class="my-library-head">
@@ -24,9 +23,27 @@
     </table>
 
     <button class="add-new-book">Add Book</button>
-    <dialog>
-      <p>Greetings, one and all!</p>
-      <form method="dialog">
+    <dialog class="new-book-dialog" closedby="any">
+        <form class="new-book-dialog-form" action="#">
+          <h3>Please Put the Book Info Below</h3>
+        <label for="book-title">Title: </label>
+        <input type="text" id="book-title" name="bookTitle" placeholder="Enter Title" required>
+
+        <label for="book-author">Author: </label>
+        <input type="text" id="book-author" name="bookAuthor" placeholder="Enter Author" required>
+
+        <label for="num-book-pages">Number Of Pages: </label>
+        <input type="number" id="num-book-pages" name="numPages"
+        placeholder="Enter Number of Pages" min="0" required>
+        
+        <div>
+            <label for="book-is-read">Have You Read It?:  </label>
+            <div>
+                <input type="checkbox" id="book-is-read" name="isRead">
+            </div>
+        </div>
+        
+        <button class="bog" type="submit">Add Book</button>
       </form>
     </dialog>
 </body>

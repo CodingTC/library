@@ -30,9 +30,9 @@ console.log(theHobbit.displayInfo());
 
 const libraryTable = document.querySelector(".my-library-body");
 
-function displayLibrary()
+function displayLibrary(theLibrary)
 {
-    for(const book of myLibrary)
+    for(const book of theLibrary)
     {
         let newRow = document.createElement("tr");
         let title = document.createElement("td");
@@ -54,4 +54,33 @@ function displayLibrary()
     }
 }
 
-displayLibrary();
+displayLibrary(myLibrary);
+
+const newBookDialog = document.querySelector(".new-book-dialog");
+
+const addBookButton = document.querySelector(".add-new-book");
+
+addBookButton.addEventListener("click", () => newBookDialog.showModal());
+
+const submitNewBookButton = document.querySelector(".bog");
+
+submitNewBookButton.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    let titleInput = document.getElementById("book-title");
+    let authorInput = document.getElementById("book-author");
+    let numPagesInput = document.getElementById("num-book-pages");
+    let isReadInput = document.getElementById("book-is-read");
+
+    addBookToLibrary(titleInput.value, authorInput.value,
+        numPagesInput.value, isReadInput.checked);
+
+    titleInput.value = "";
+    authorInput.value = "";
+    numPagesInput.value = "";
+    isReadInput.checked = false;
+    
+    displayLibrary(myLibrary.slice(-1));
+    
+    newBookDialog.close();
+});
