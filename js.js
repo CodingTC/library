@@ -15,6 +15,11 @@ function Book(title, author, numPages, isRead)
     this.displayInfo = () => `${title} by ${author}, ${numPages} pages, ${isRead ? "has been read" : "not read yet"}`;
 }
 
+Book.prototype.toggleIsRead = function() 
+{
+    return this.isRead = !this.isRead;
+}
+
 function addBookToLibrary(title, author, numPages, isRead)
 {
     let newBook = new Book(title, author, numPages, isRead);
@@ -55,7 +60,15 @@ function displayLibrary(theLibrary)
         newRow.appendChild(id);
 
         let delButton = document.createElement("button");
-        delButton.classList.add("book-del-btn");
+        let toggleIsReadButton = document.createElement("button");
+
+        toggleIsReadButton.addEventListener("click", () => {
+            let objToToggle = myLibrary.filter(b => b.id === book.id)
+            isRead.textContent = objToToggle[0].toggleIsRead();
+
+        });
+
+        toggleIsReadButton.textContent = "Toggle Is Read";  
 
         delButton.textContent = "Delete";
         
@@ -65,6 +78,7 @@ function displayLibrary(theLibrary)
         });
 
         newRow.appendChild(delButton);
+        newRow.appendChild(toggleIsReadButton);
 
         libraryTable.appendChild(newRow);
     }
