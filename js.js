@@ -1,4 +1,4 @@
-const myLibrary = [];
+let myLibrary = [];
 
 function Book(title, author, numPages, isRead)
 {
@@ -40,6 +40,9 @@ function displayLibrary(theLibrary)
         let numPages = document.createElement("td");
         let isRead = document.createElement("td");
         let id = document.createElement("td");
+           
+        newRow.dataset.bookId = book.id;
+
         title.textContent = book.title;     
         newRow.appendChild(title);
         author.textContent = book.author;     
@@ -50,9 +53,24 @@ function displayLibrary(theLibrary)
         newRow.appendChild(isRead);
         id.textContent = book.id;     
         newRow.appendChild(id);
+
+        let delButton = document.createElement("button");
+        delButton.classList.add("book-del-btn");
+
+        delButton.textContent = "Delete";
+        
+        delButton.addEventListener("click", () => {
+            myLibrary = myLibrary.filter(b => b.id !== book.id);
+            newRow.remove();
+        });
+
+        newRow.appendChild(delButton);
+
         libraryTable.appendChild(newRow);
     }
 }
+
+
 
 displayLibrary(myLibrary);
 
