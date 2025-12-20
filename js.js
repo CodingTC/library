@@ -11,8 +11,6 @@ function Book(title, author, numPages, isRead)
     this.numPages = numPages;
     this.isRead = isRead;
     this.id = crypto.randomUUID();
-
-    this.displayInfo = () => `${title} by ${author}, ${numPages} pages, ${isRead ? "has been read" : "not read yet"}`;
 }
 
 Book.prototype.toggleIsRead = function() 
@@ -26,51 +24,44 @@ function addBookToLibrary(title, author, numPages, isRead)
     myLibrary.push(newBook);
 }
 
-
 let theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, false);
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, false);
 addBookToLibrary("IT", "Stephen King", 1045, true);
 
-console.log(theHobbit.displayInfo());
-
 const libraryTable = document.querySelector(".my-library-body");
 
+//code right here sucks could rework
 function displayLibrary(theLibrary)
 {
     for(const book of theLibrary)
     {
         let newRow = document.createElement("tr");
-        let title = document.createElement("td");
-        let author = document.createElement("td");
-        let numPages = document.createElement("td");
-        let isRead = document.createElement("td");
-        let id = document.createElement("td");
+        for(const key in book)
+        {
+            if(book.hasOwnProperty(key) && typeof book[key] !== "function")
+            {    
+                let tCell = document.createElement("td");
+                tCell.classList.add(`book-${key}`);
+                tCell.textContent = book[key];
+                newRow.appendChild(tCell);
+            }
+
+        }
            
         newRow.dataset.bookId = book.id;
 
-        title.textContent = book.title;     
-        newRow.appendChild(title);
-        author.textContent = book.author;     
-        newRow.appendChild(author);
-        numPages.textContent = book.numPages;     
-        newRow.appendChild(numPages);
-        isRead.textContent = book.isRead;     
-        newRow.appendChild(isRead);
-        id.textContent = book.id;     
-        newRow.appendChild(id);
-
         let delButton = document.createElement("button");
+        delButton.textContent = "Delete";
+
         let toggleIsReadButton = document.createElement("button");
+        toggleIsReadButton.textContent = "Toggle Is Read";  
 
         toggleIsReadButton.addEventListener("click", () => {
             let objToToggle = myLibrary.filter(b => b.id === book.id)
+            let selectedRow = document.querySelector(`[data-book-id='${objToToggle[0].id}']`);
+            let isRead = selectedRow.querySelector(".book-isRead")
             isRead.textContent = objToToggle[0].toggleIsRead();
-
         });
-
-        toggleIsReadButton.textContent = "Toggle Is Read";  
-
-        delButton.textContent = "Delete";
         
         delButton.addEventListener("click", () => {
             myLibrary = myLibrary.filter(b => b.id !== book.id);
@@ -97,6 +88,7 @@ addBookButton.addEventListener("click", () => newBookDialog.showModal());
 const submitNewBookButton = document.querySelector(".bog");
 
 submitNewBookButton.addEventListener("click", (e) => {
+    //prevent modal from closing
     e.preventDefault();
 
     let titleInput = document.getElementById("book-title");
