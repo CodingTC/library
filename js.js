@@ -1,22 +1,22 @@
 let myLibrary = [];
 
-function Book(title, author, numPages, isRead)
+class Book
 {
-    if(!new.target)
+    constructor(title, author, numPages, isRead)
     {
-        throw Error("You must use the 'new' operator to call the constructor");
+        this.title = title;
+        this.author = author;
+        this.numPages = numPages;
+        this.isRead = isRead;
+        this.id = crypto.randomUUID();
     }
-    this.title = title;
-    this.author = author;
-    this.numPages = numPages;
-    this.isRead = isRead;
-    this.id = crypto.randomUUID();
+    
+    toggleIsRead()
+    {
+        return this.isRead = !this.isRead;
+    }
 }
 
-Book.prototype.toggleIsRead = function() 
-{
-    return this.isRead = !this.isRead;
-}
 
 function addBookToLibrary(title, author, numPages, isRead)
 {
